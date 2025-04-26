@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useShoppingContext } from '../context/ShoppingContext';
+import AutocompleteInput from './AutocompleteInput';
 
 const CreateListForm = () => {
   const { createShoppingList } = useShoppingContext();
@@ -38,7 +39,7 @@ const CreateListForm = () => {
     
     // Validate form
     if (!listName.trim()) {
-      setError('Please enter a list name');
+      setError('Пожалуйста, введите название списка');
       return;
     }
 
@@ -46,7 +47,7 @@ const CreateListForm = () => {
     const validItems = items.filter(item => item.name.trim());
     
     if (validItems.length === 0) {
-      setError('Please add at least one item to your list');
+      setError('Пожалуйста, добавьте хотя бы один товар в список');
       return;
     }
 
@@ -72,28 +73,26 @@ const CreateListForm = () => {
           {error && <div className="alert alert-error">{error}</div>}
           
           <div className="form-group">
-            <label className="form-label" htmlFor="list-name">List Name</label>
+            <label className="form-label" htmlFor="list-name">Название списка</label>
             <input
               type="text"
               id="list-name"
               className="form-control"
               value={listName}
               onChange={handleNameChange}
-              placeholder="e.g., Weekly Groceries"
+              placeholder="например, Продукты на неделю"
             />
           </div>
           
-          <h3 className="form-section-title">Items</h3>
+          <h3 className="form-section-title">Товары</h3>
           
           {items.map((item, index) => (
             <div key={item.id} className="form-row">
               <div className="form-group flex-grow">
-                <input
-                  type="text"
-                  className="form-control"
+                <AutocompleteInput
                   value={item.name}
-                  onChange={(e) => handleItemChange(index, 'name', e.target.value)}
-                  placeholder="Item name"
+                  onChange={(value) => handleItemChange(index, 'name', value)}
+                  placeholder="Название товара"
                 />
               </div>
               
@@ -103,7 +102,7 @@ const CreateListForm = () => {
                   className="form-control"
                   value={item.quantity}
                   onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                  placeholder="Qty"
+                  placeholder="Кол-во"
                 />
               </div>
               
@@ -122,12 +121,12 @@ const CreateListForm = () => {
             className="btn btn-outline add-item-btn"
             onClick={addItem}
           >
-            <i className="fas fa-plus"></i> Add Item
+            <i className="fas fa-plus"></i> Добавить товар
           </button>
           
           <div className="form-actions">
             <button type="submit" className="btn btn-primary">
-              <i className="fas fa-save"></i> Save List
+              <i className="fas fa-save"></i> Сохранить список
             </button>
           </div>
         </form>

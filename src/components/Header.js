@@ -4,19 +4,19 @@ import { useShoppingContext } from '../context/ShoppingContext';
 const Header = () => {
   const { activeTab } = useShoppingContext();
   
-  // Set title based on active tab
+  // Установка заголовка на основе активной вкладки
   const getTitle = () => {
     switch (activeTab) {
       case 'lists':
-        return 'My Shopping Lists';
+        return 'Мои списки покупок';
       case 'create':
-        return 'Create New List';
+        return 'Создать новый список';
       case 'recommendations':
-        return 'Recommended Items';
+        return 'Рекомендуемые товары';
       case 'history':
-        return 'Shopping History';
+        return 'История покупок';
       default:
-        return 'SmartCart';
+        return 'СмартКорзина';
     }
   };
   

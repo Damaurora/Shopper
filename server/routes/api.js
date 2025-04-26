@@ -3,6 +3,11 @@ const router = express.Router();
 const inMemoryDB = require('../models/inMemoryDB');
 const recommender = require('../services/recommender');
 
+// Health check endpoint
+router.get('/healthcheck', (req, res) => {
+  res.json({ status: 'ok', message: 'API is running' });
+});
+
 // Get all shopping lists
 router.get('/shopping-lists', (req, res) => {
   try {

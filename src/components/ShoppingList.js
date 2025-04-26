@@ -18,8 +18,8 @@ const ShoppingList = () => {
     return (
       <div className="empty-state">
         <i className="fas fa-shopping-cart"></i>
-        <h2>No Shopping Lists</h2>
-        <p>Create your first shopping list to get started!</p>
+        <h2>Нет списков покупок</h2>
+        <p>Создайте свой первый список покупок, чтобы начать!</p>
       </div>
     );
   }
@@ -29,7 +29,7 @@ const ShoppingList = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this shopping list?')) {
+    if (window.confirm('Вы уверены, что хотите удалить этот список покупок?')) {
       deleteShoppingList(id);
     }
   };
@@ -87,7 +87,7 @@ const ShoppingList = () => {
           {openListId === list.id && (
             <div className="card-body">
               {list.items.length === 0 ? (
-                <p>This list is empty.</p>
+                <p>Этот список пуст.</p>
               ) : (
                 <ul className="shopping-list">
                   {list.items.map((item, index) => (

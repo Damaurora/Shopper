@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useShoppingContext } from '../context/ShoppingContext';
+import { getCategoryByName } from '../utils/productCategories';
 
 const Recommendations = () => {
   const { getRecommendations, createShoppingList } = useShoppingContext();
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItems, setSelectedItems] = useState({});
-  const [listName, setListName] = useState('Recommended List');
+  const [listName, setListName] = useState('Рекомендуемые товары');
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -50,7 +51,7 @@ const Recommendations = () => {
       }));
 
     if (items.length === 0) {
-      alert('Please select at least one item for your list');
+      alert('Пожалуйста, выберите хотя бы один товар для списка');
       return;
     }
 
@@ -61,7 +62,7 @@ const Recommendations = () => {
     });
 
     // Reset form
-    setListName('Recommended List');
+    setListName('Рекомендуемые товары');
   };
 
   const selectAll = (select = true) => {
@@ -84,8 +85,8 @@ const Recommendations = () => {
     return (
       <div className="empty-state">
         <i className="fas fa-lightbulb"></i>
-        <h2>No Recommendations Yet</h2>
-        <p>Create and complete shopping lists to get personalized recommendations.</p>
+        <h2>Пока нет рекомендаций</h2>
+        <p>Создавайте и завершайте списки покупок, чтобы получать персонализированные рекомендации.</p>
       </div>
     );
   }
@@ -94,23 +95,23 @@ const Recommendations = () => {
     <div className="card">
       <div className="card-body">
         <div className="form-group">
-          <label className="form-label" htmlFor="list-name">New List Name</label>
+          <label className="form-label" htmlFor="list-name">Название нового списка</label>
           <input
             type="text"
             id="list-name"
             className="form-control"
             value={listName}
             onChange={(e) => setListName(e.target.value)}
-            placeholder="Enter list name"
+            placeholder="Введите название списка"
           />
         </div>
 
         <div className="recommendation-actions">
           <button className="btn btn-outline" onClick={() => selectAll(true)}>
-            Select All
+            Выбрать все
           </button>
           <button className="btn btn-outline" onClick={() => selectAll(false)}>
-            Deselect All
+            Отменить выбор
           </button>
         </div>
 
@@ -123,6 +124,9 @@ const Recommendations = () => {
                 onChange={() => toggleItemSelection(item.id)}
               />
               <div className="recommendation-text">
+                {getCategoryByName(item.name) && (
+                  <i className={`${getCategoryByName(item.name).icon} recommendation-icon`}></i>
+                )}
                 <span>{item.name}</span>
               </div>
               <span className="recommendation-confidence">
@@ -136,7 +140,7 @@ const Recommendations = () => {
           className="btn btn-primary create-list-btn"
           onClick={createListFromRecommendations}
         >
-          <i className="fas fa-plus"></i> Create List from Selected
+          <i className="fas fa-plus"></i> Создать список из выбранных
         </button>
       </div>
     </div>

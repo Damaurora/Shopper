@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useShoppingContext } from '../context/ShoppingContext';
+import { getCategoryByName } from '../utils/productCategories';
 
 const ShoppingListItem = ({ item, listId, readOnly = false }) => {
   const { updateShoppingListItem } = useShoppingContext();
   const [checked, setChecked] = useState(item.checked || false);
+  const [categoryIcon, setCategoryIcon] = useState(null);
+
+  // Определяем иконку категории при монтировании компонента
+  useEffect(() => {
+    if (item.name) {
+      const category = getCategoryByName(item.name);
+      setCategoryIcon(category ? category.icon : null);
+    }
+  }, [item.name]);
 
   const handleCheckChange = () => {
     if (readOnly) return;
@@ -29,7 +39,10 @@ const ShoppingListItem = ({ item, listId, readOnly = false }) => {
         />
       </div>
       <div className="list-item-text">
-        {item.name}
+        {categoryIcon && (
+          <i className={`${categoryIcon} item-category-icon`}></i>
+        )}
+        <span className="item-name">{item.name}</span>
         {item.quantity && <span className="item-quantity"> ({item.quantity})</span>}
       </div>
     </li>

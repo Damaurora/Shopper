@@ -40,19 +40,19 @@ function App() {
       <nav className="bottom-nav">
         <button className={`nav-btn ${activeTab === 'lists' ? 'active' : ''}`} onClick={() => setActiveTab('lists')}>
           <i className="fas fa-list"></i>
-          <span>Lists</span>
+          <span>Списки</span>
         </button>
         <button className={`nav-btn ${activeTab === 'create' ? 'active' : ''}`} onClick={() => setActiveTab('create')}>
           <i className="fas fa-plus"></i>
-          <span>Create</span>
+          <span>Создать</span>
         </button>
         <button className={`nav-btn ${activeTab === 'recommendations' ? 'active' : ''}`} onClick={() => setActiveTab('recommendations')}>
           <i className="fas fa-lightbulb"></i>
-          <span>Suggest</span>
+          <span>Советы</span>
         </button>
         <button className={`nav-btn ${activeTab === 'history' ? 'active' : ''}`} onClick={() => setActiveTab('history')}>
           <i className="fas fa-history"></i>
-          <span>History</span>
+          <span>История</span>
         </button>
       </nav>
     </div>
