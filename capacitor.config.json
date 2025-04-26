@@ -53,13 +53,17 @@
     "allowMixedContent": true,
     "captureInput": true,
     "webContentsDebuggingEnabled": true,
-    "backgroundColor": "#5e35b1"
+    "backgroundColor": "#0c0c18",
+    "appendUserAgent": "Locale=ru_RU",
+    "initialFocus": false
   },
   "ios": {
     "contentInset": "always",
     "allowsLinkPreview": true,
     "webViewTouchOverflow": true, 
     "scrollEnabled": true,
-    "backgroundColor": "#5e35b1"
+    "backgroundColor": "#0c0c18",
+    "preferredContentMode": "mobile",
+    "useUserAgent": "SmartCart iOS App; Locale=ru_RU"
   }
 }

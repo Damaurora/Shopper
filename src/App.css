@@ -1,20 +1,20 @@
 /* Base Styles - Темная сине-фиолетовая тема с улучшенными цветами */
 :root {
-  --primary-color: #6a3de8; /* Яркий фиолетовый */
-  --primary-dark: #4527a0;  /* Темно-фиолетовый */
-  --secondary-color: #1e3bb3; /* Насыщенный темно-синий */
-  --accent-color: #8a4dff; /* Более насыщенный фиолетовый */
-  --background-dark: #0c0c18; /* Очень темный сине-фиолетовый фон */
-  --background-card: #1a1a32; /* Улучшенный фон для карточек */
-  --surface-color: #2d2d4f; /* Поверхность элементов с оттенком синего */
+  --primary-color: #7042f5; /* Ярче фиолетовый */
+  --primary-dark: #3a1e96;  /* Глубокий темно-фиолетовый */
+  --secondary-color: #182baa; /* Глубокий темно-синий */
+  --accent-color: #9b65ff; /* Более яркий фиолетовый акцент */
+  --background-dark: #0a0a1c; /* Насыщенный темный сине-фиолетовый фон */
+  --background-card: #15152b; /* Темный фон для карточек с синим оттенком */
+  --surface-color: #23234a; /* Поверхность элементов с синим оттенком */
   --text-primary: #ffffff; /* Основной текст */
-  --text-secondary: #b8b5d9; /* Вторичный текст с фиолетовым оттенком */
+  --text-secondary: #c0bceb; /* Вторичный текст с выраженным фиолетовым оттенком */
   --success-color: #43a047;
   --error-color: #e53935;
   --warning-color: #ff9800;
   --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  --gradient-accent: linear-gradient(135deg, #8a4dff 0%, #6a3de8 100%);
-  --box-shadow: 0 4px 10px rgba(26, 15, 82, 0.4);
+  --gradient-accent: linear-gradient(135deg, #9b65ff 0%, #7042f5 100%);
+  --box-shadow: 0 6px 12px rgba(26, 15, 82, 0.5);
   --transition: all 0.3s ease;
 }
 
@@ -52,6 +52,9 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .header h1 {
@@ -72,12 +75,15 @@ body {
 .bottom-nav {
   display: flex;
   justify-content: space-around;
-  background-color: var(--background-card);
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
+  background-color: rgba(21, 21, 43, 0.92); /* Полупрозрачный фон */
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
   position: sticky;
   bottom: 0;
   z-index: 5;
-  border-top: 1px solid var(--primary-dark);
+  border-top: 1px solid rgba(112, 66, 245, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.2rem 0;
 }
 
 .nav-btn {
@@ -92,15 +98,46 @@ body {
   cursor: pointer;
   transition: var(--transition);
   font-size: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: var(--gradient-accent);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+  opacity: 0;
+  border-radius: 3px 3px 0 0;
 }
 
 .nav-btn i {
   margin-bottom: 0.3rem;
   font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.nav-btn:hover i {
+  transform: translateY(-3px);
 }
 
 .nav-btn.active {
   color: var(--accent-color);
+  font-weight: 500;
+}
+
+.nav-btn.active::after {
+  width: 40%;
+  opacity: 1;
+}
+
+.nav-btn.active i {
+  transform: translateY(-3px);
 }
 
 /* Card component */
