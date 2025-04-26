@@ -1,0 +1,106 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:  # Позволяет запускать workflow вручную из GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: gradle
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build React app
+      run: npx react-scripts build
+    
+    - name: Install Capacitor CLI
+      run: npm install -g @capacitor/cli
+    
+    - name: Sync Capacitor with Android
+      run: npx cap sync android
+    
+    - name: Выдача прав на Gradle
+      run: chmod +x ./android/gradlew
+    
+    # Сборка APK для arm64-v8a
+    - name: Build APK for arm64-v8a
+      working-directory: ./android
+      run: |
+        # Модифицируем build.gradle для включения только arm64-v8a
+        sed -i "s/abiFilters.*/abiFilters 'arm64-v8a'/g" app/build.gradle
+        ./gradlew assembleDebug
+        mkdir -p ../apk-output
+        cp app/build/outputs/apk/debug/app-debug.apk ../apk-output/SmartBasket-arm64-v8a.apk
+    
+    # Сборка APK для armeabi-v7a
+    - name: Build APK for armeabi-v7a
+      working-directory: ./android
+      run: |
+        # Модифицируем build.gradle для включения только armeabi-v7a
+        sed -i "s/abiFilters.*/abiFilters 'armeabi-v7a'/g" app/build.gradle
+        ./gradlew assembleDebug
+        cp app/build/outputs/apk/debug/app-debug.apk ../apk-output/SmartBasket-armeabi-v7a.apk
+    
+    # Сборка APK для x86
+    - name: Build APK for x86
+      working-directory: ./android
+      run: |
+        # Модифицируем build.gradle для включения только x86
+        sed -i "s/abiFilters.*/abiFilters 'x86'/g" app/build.gradle
+        ./gradlew assembleDebug
+        cp app/build/outputs/apk/debug/app-debug.apk ../apk-output/SmartBasket-x86.apk
+    
+    # Сборка APK для x86_64
+    - name: Build APK for x86_64
+      working-directory: ./android
+      run: |
+        # Модифицируем build.gradle для включения только x86_64
+        sed -i "s/abiFilters.*/abiFilters 'x86_64'/g" app/build.gradle
+        ./gradlew assembleDebug
+        cp app/build/outputs/apk/debug/app-debug.apk ../apk-output/SmartBasket-x86_64.apk
+    
+    # Сборка универсального APK
+    - name: Build Universal APK
+      working-directory: ./android
+      run: |
+        # Модифицируем build.gradle для включения всех архитектур
+        sed -i "s/abiFilters.*/abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'/g" app/build.gradle
+        ./gradlew assembleDebug
+        cp app/build/outputs/apk/debug/app-debug.apk ../apk-output/SmartBasket-universal.apk
+    
+    # Загрузка собранных APK как артефакты
+    - name: Upload APK artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk-files
+        path: apk-output/*.apk
+        retention-days: 30  # Артефакты будут храниться 30 дней
+    
+    # Создание GitHub Release с APK файлами при пуше тега
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: apk-output/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
