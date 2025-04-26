@@ -1,0 +1,65 @@
+{
+  "appId": "io.smart.cart",
+  "appName": "SmartCart",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://workspace.svinoyerilco.repl.co",
+    "cleartext": true,
+    "allowNavigation": [
+      "*.openai.com"
+    ]
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#5e35b1",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP"
+    },
+    "Network": {
+      "requestInterceptors": {
+        "urls": [
+          {
+            "urlPatterns": [
+              "*.googleapis.com",
+              "api.openai.com"
+            ],
+            "interceptionType": "INTERNET_REQUIRED"
+          }
+        ]
+      }
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_shop",
+      "iconColor": "#5e35b1"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    },
+    "CapacitorHttp": {
+      "enabled": true
+    },
+    "CapacitorCookies": {
+      "enabled": true
+    }
+  },
+  "android": {
+    "flavor": "free",
+    "buildType": "debug",
+    "overrideUserAgent": "SmartCart Android App",
+    "targetSdkVersion": 33,
+    "minSdkVersion": 23,
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true,
+    "backgroundColor": "#5e35b1"
+  },
+  "ios": {
+    "contentInset": "always",
+    "allowsLinkPreview": true,
+    "webViewTouchOverflow": true, 
+    "scrollEnabled": true,
+    "backgroundColor": "#5e35b1"
+  }
+}
