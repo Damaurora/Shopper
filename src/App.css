@@ -1,19 +1,20 @@
-/* Base Styles - Темная сине-фиолетовая тема */
+/* Base Styles - Темная сине-фиолетовая тема с улучшенными цветами */
 :root {
-  --primary-color: #5e35b1; /* Фиолетовый */
+  --primary-color: #6a3de8; /* Яркий фиолетовый */
   --primary-dark: #4527a0;  /* Темно-фиолетовый */
-  --secondary-color: #283593; /* Темно-синий */
-  --accent-color: #7c4dff; /* Яркий фиолетовый */
-  --background-dark: #121212; /* Очень темный фон */
-  --background-card: #1e1e2f; /* Темный фон для карточек */
-  --surface-color: #2d2d44; /* Поверхность элементов */
+  --secondary-color: #1e3bb3; /* Насыщенный темно-синий */
+  --accent-color: #8a4dff; /* Более насыщенный фиолетовый */
+  --background-dark: #0c0c18; /* Очень темный сине-фиолетовый фон */
+  --background-card: #1a1a32; /* Улучшенный фон для карточек */
+  --surface-color: #2d2d4f; /* Поверхность элементов с оттенком синего */
   --text-primary: #ffffff; /* Основной текст */
-  --text-secondary: #b0b0b0; /* Вторичный текст */
+  --text-secondary: #b8b5d9; /* Вторичный текст с фиолетовым оттенком */
   --success-color: #43a047;
   --error-color: #e53935;
   --warning-color: #ff9800;
   --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --gradient-accent: linear-gradient(135deg, #8a4dff 0%, #6a3de8 100%);
+  --box-shadow: 0 4px 10px rgba(26, 15, 82, 0.4);
   --transition: all 0.3s ease;
 }
 
@@ -129,18 +130,32 @@ body {
 
 /* Buttons */
 .btn {
-  padding: 0.6rem 1.1rem;
+  padding: 0.7rem 1.2rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 500;
-  transition: var(--transition);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(26, 15, 82, 0.25);
   font-size: 0.95rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .btn-primary {
@@ -160,7 +175,7 @@ body {
 
 .btn-outline {
   background: transparent;
-  border: 1px solid var(--accent-color);
+  border: 2px solid var(--accent-color);
   color: var(--accent-color);
   box-shadow: none;
 }
@@ -168,17 +183,37 @@ body {
 .btn i {
   margin-right: 0.6rem;
   font-size: 1.1rem;
+  transition: transform 0.3s ease;
 }
 
 .btn:hover {
-  opacity: 0.95;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(26, 15, 82, 0.35);
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+.btn:hover i {
+  transform: translateX(-3px);
 }
 
 .btn-outline:hover {
-  background-color: rgba(124, 77, 255, 0.1);
-  box-shadow: none;
+  background-color: rgba(138, 77, 255, 0.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 3px 8px rgba(138, 77, 255, 0.15);
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(26, 15, 82, 0.2);
+}
+
+.create-list-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.9rem;
 }
 
 /* Form controls */
@@ -256,11 +291,24 @@ body {
 }
 
 .item-category-icon {
-  margin-right: 0.6rem;
+  margin-right: 0.8rem;
   color: var(--accent-color);
-  width: 24px;
+  width: 28px;
+  height: 28px;
   text-align: center;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 77, 255, 0.15);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(138, 77, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.list-item:hover .item-category-icon {
+  transform: scale(1.1);
+  background: rgba(138, 77, 255, 0.25);
 }
 
 .list-item-actions {
@@ -332,22 +380,41 @@ body {
 }
 
 .recommendation-icon {
-  margin-right: 0.6rem;
+  margin-right: 0.8rem;
   color: var(--accent-color);
-  width: 24px;
+  width: 28px;
+  height: 28px;
   text-align: center;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 77, 255, 0.15);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(138, 77, 255, 0.25);
+  transition: all 0.2s ease;
+}
+
+.recommendation-item:hover .recommendation-icon {
+  transform: scale(1.1);
+  background: rgba(138, 77, 255, 0.25);
 }
 
 .recommendation-confidence {
   margin-left: auto;
-  background: var(--accent-color);
+  background: var(--gradient-accent);
   color: white;
   border-radius: 12px;
   padding: 0.3rem 0.7rem;
   font-size: 0.75rem;
   font-weight: 500;
-  box-shadow: 0 2px 4px rgba(124, 77, 255, 0.3);
+  box-shadow: 0 2px 6px rgba(106, 61, 232, 0.4);
+  transition: all 0.2s ease;
+}
+
+.recommendation-item:hover .recommendation-confidence {
+  transform: translateX(-3px);
+  box-shadow: 0 3px 8px rgba(106, 61, 232, 0.5);
 }
 
 /* Animation */
@@ -400,12 +467,32 @@ body {
 .stat-card {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: white;
-  border-radius: 10px;
-  padding: 1rem;
+  border-radius: 16px;
+  padding: 1.2rem;
   flex: 1;
   margin: 0 0.5rem;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(26, 15, 82, 0.25);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%);
+  opacity: 0.5;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(26, 15, 82, 0.3);
 }
 
 .stat-card:first-child {
@@ -417,14 +504,19 @@ body {
 }
 
 .stat-card h3 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin: 0 0 0.5rem;
+  position: relative;
 }
 
 .stat-card p {
   margin: 0;
   opacity: 0.9;
   font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .history-list {
@@ -444,11 +536,24 @@ body {
 }
 
 .history-item-icon {
-  margin-right: 0.6rem;
+  margin-right: 0.8rem;
   color: var(--accent-color);
-  width: 24px;
+  width: 28px;
+  height: 28px;
   text-align: center;
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 77, 255, 0.15);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(138, 77, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.history-item:hover .history-item-icon {
+  transform: scale(1.1);
+  background: rgba(138, 77, 255, 0.25);
 }
 
 .item-quantity {
@@ -474,8 +579,21 @@ body {
   top: 50%;
   transform: translateY(-50%);
   color: var(--accent-color);
-  opacity: 0.8;
   font-size: 1.1rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 77, 255, 0.15);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(138, 77, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+.form-control:focus + .product-category-icon {
+  transform: translateY(-50%) scale(1.1);
+  background: rgba(138, 77, 255, 0.25);
 }
 
 .suggestions-list {
@@ -493,7 +611,8 @@ body {
   padding: 0;
   margin: 0;
   list-style: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.2s ease-out;
 }
 
 .suggestion-item {
@@ -501,16 +620,34 @@ body {
   cursor: pointer;
   display: flex;
   align-items: center;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(138, 77, 255, 0.1);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
 }
 
 .suggestion-item:hover {
-  background-color: rgba(94, 53, 177, 0.1);
+  background-color: rgba(138, 77, 255, 0.1);
+  padding-left: 20px;
 }
 
 .suggestion-icon {
   margin-right: 10px;
   color: var(--accent-color);
-  width: 20px;
-  text-align: center;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(138, 77, 255, 0.15);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item:hover .suggestion-icon {
+  transform: scale(1.1);
+  background: rgba(138, 77, 255, 0.25);
 }
