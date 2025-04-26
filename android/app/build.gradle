@@ -14,16 +14,16 @@ android {
         }
     }
     
-    // Обработка параметра abiFilters для сборки конкретной архитектуры
+    // Обработка параметра abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
     project.ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':2, 'x86':3, 'x86_64':4]
     project.afterEvaluate {
-        // Учитываем параметр abiFilters, если он указан
-        if (project.hasProperty('abiFilters')) {
-            android.defaultConfig.ndk.abiFilters = []
-            android.defaultConfig.ndk.abiFilters.addAll(abiFilters.split(','))
+        // Учитываем параметр abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+        if (project.hasProperty('abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            android.defaultConfig.ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            android.defaultConfig.ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
             
             // Отключаем разделение APK если собираем только одну архитектуру
-            if (android.defaultConfig.ndk.abiFilters.size() == 1) {
+            if (android.defaultConfig.ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
                 splits.abi.enable = false
             }
         }

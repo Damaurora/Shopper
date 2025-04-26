@@ -34,7 +34,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "bash build-android.sh"
+args = "cd android && ./build-apk-types.sh"
 
 [deployment]
 run = ["sh", "-c", "npm install && npm run build && node server/index.js"]

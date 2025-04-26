@@ -67,17 +67,38 @@
 
 ## Решение распространенных проблем
 
-### Ошибка "Missing download info for actions/upload-artifact@v3"
+### Ошибка "Missing download info for actions/upload-artifact@vX"
 
-**Причина**: Используемая версия action не поддерживается в вашем плане GitHub.
+**Причина**: Используемая версия action не поддерживается в вашем плане GitHub или существуют ограничения на использование определенных actions.
 
-**Решение**: Измените версию в `.github/workflows/android-build.yml`:
+**Решение**: Вы можете попробовать следующие варианты:
+1. Используйте самую базовую версию action:
 ```yaml
 - name: Upload APK artifacts
-  uses: actions/upload-artifact@v2  # Использовать v2 вместо v3
+  uses: actions/upload-artifact@v1
   with:
     name: apk-files
-    path: apk-output/*.apk
+    path: apk-output
+```
+
+2. Если и это не работает, полностью уберите шаг загрузки артефактов и используйте прямое копирование через командную строку:
+```yaml
+- name: Prepare artifacts
+  run: |
+    mkdir -p /tmp/artifacts
+    cp -r apk-output/*.apk /tmp/artifacts/
+    ls -la /tmp/artifacts
+    echo "APK файлы созданы в директории /tmp/artifacts. Скачать их можно через GitHub UI."
+```
+
+3. В крайнем случае, полностью упростите workflow, чтобы он только собирал APK, а не пытался загружать артефакты:
+```yaml
+- name: Build Universal APK
+  working-directory: ./android
+  run: |
+    sed -i "s/abiFilters.*/abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'/g" app/build.gradle
+    ./gradlew assembleDebug
+    echo "APK собран, но из-за ограничений GitHub не может быть загружен как артефакт"
 ```
 
 ### Ошибка "Permission denied" при запуске Gradle
