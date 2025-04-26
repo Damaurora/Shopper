@@ -90,16 +90,54 @@ jobs:
     
     # Загрузка собранных APK как артефакты
     - name: Upload APK artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v1
       with:
         name: apk-files
-        path: apk-output/*.apk
-        retention-days: 30  # Артефакты будут храниться 30 дней
+        path: apk-output
     
-    # Создание GitHub Release с APK файлами при пуше тега
+    # Создание GitHub Release при пуше тега
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: ncipollo/release-action@v1
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        artifacts: "apk-output/*.apk"
-        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+        
+    # Прикрепление APK файлов к релизу
+    - name: Upload arm64-v8a APK to Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./apk-output/SmartBasket-arm64-v8a.apk
+        asset_name: SmartBasket-arm64-v8a.apk
+        asset_content_type: application/vnd.android.package-archive
+        
+    - name: Upload armeabi-v7a APK to Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./apk-output/SmartBasket-armeabi-v7a.apk
+        asset_name: SmartBasket-armeabi-v7a.apk
+        asset_content_type: application/vnd.android.package-archive
+        
+    - name: Upload Universal APK to Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./apk-output/SmartBasket-universal.apk
+        asset_name: SmartBasket-universal.apk
+        asset_content_type: application/vnd.android.package-archive
