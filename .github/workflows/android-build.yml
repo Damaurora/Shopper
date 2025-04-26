@@ -12,16 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v2
       with:
         node-version: 16
         cache: 'npm'
     
     - name: Set up JDK 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v2
       with:
         java-version: '11'
         distribution: 'adopt'
@@ -90,7 +90,7 @@ jobs:
     
     # Загрузка собранных APK как артефакты
     - name: Upload APK artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: apk-files
         path: apk-output/*.apk
@@ -99,8 +99,7 @@ jobs:
     # Создание GitHub Release с APK файлами при пуше тега
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        files: apk-output/*.apk
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: "apk-output/*.apk"
+        token: ${{ secrets.GITHUB_TOKEN }}
